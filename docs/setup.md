@@ -57,9 +57,8 @@ Replace `TAG` with the desired release tag (e.g. `v2.2.0`).
 
 ### plugin.yml
 
-!!! warning
-    For backwards compatibility, your `plugin.yml` must declare the dependency as `CrucialAPI`, **not** `CrucialLib`. This ensures compatibility with existing servers that still have the jar registered under the original name.
+Add CrucialLib as a dependency in your `plugin.yml`:
 
 ```yaml
-depend: [CrucialAPI]
+depend: [CrucialLib]
 ```

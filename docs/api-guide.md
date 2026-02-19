@@ -23,11 +23,11 @@ public void onEnable() {
 Use `Crucial.getVersion()` to check whether a newer version of your plugin is available:
 
 ```java
-private final String CrucialAPIVersion = "1.2";
+private final String CrucialLibVersion = "2.2.0";
 
 @Override
 public void onEnable() {
-    Crucial.getVersion(CrucialAPIVersion, this);
+    Crucial.getVersion(CrucialLibVersion, this);
 }
 ```
 
@@ -53,20 +53,20 @@ The `setCrafting` method takes a 9-element `String[]` representing the 3x3 craft
 You can auto-download CrucialLib in your plugin's `onLoad()` method so server admins don't need to install it manually:
 
 ```java
-private final String CrucialAPIVersion = "1.2";
+private final String CrucialLibVersion = "2.2.0";
 
 @Override
 public void onLoad() {
-    if (getServer().getPluginManager().getPlugin("CrucialAPI") == null) {
+    if (getServer().getPluginManager().getPlugin("CrucialLib") == null) {
         try {
             URL website = new URL(
-                "https://github.com/Chafficui/CrucialAPI/releases/download/v"
-                + CrucialAPIVersion + "/CrucialAPI-v" + CrucialAPIVersion + ".jar"
+                "https://github.com/ChafficPlugins/CrucialLib/releases/download/v"
+                + CrucialLibVersion + "/CrucialLib-v" + CrucialLibVersion + ".jar"
             );
             ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-            FileOutputStream fos = new FileOutputStream("plugins/CrucialAPI.jar");
+            FileOutputStream fos = new FileOutputStream("plugins/CrucialLib.jar");
             fos.getChannel().transferFrom(rbc, 0L, Long.MAX_VALUE);
-            Bukkit.getPluginManager().loadPlugin(new File("plugins/CrucialAPI.jar"));
+            Bukkit.getPluginManager().loadPlugin(new File("plugins/CrucialLib.jar"));
         } catch (IOException | InvalidDescriptionException
                  | InvalidPluginException e) {
             e.printStackTrace();
@@ -82,20 +82,20 @@ Here is a complete plugin main class combining all of the above:
 
 ```java
 public class Main extends JavaPlugin {
-    private final String CrucialAPIVersion = "1.2";
+    private final String CrucialLibVersion = "2.2.0";
 
     @Override
     public void onLoad() {
-        if (getServer().getPluginManager().getPlugin("CrucialAPI") == null) {
+        if (getServer().getPluginManager().getPlugin("CrucialLib") == null) {
             try {
                 URL website = new URL(
-                    "https://github.com/Chafficui/CrucialAPI/releases/download/v"
-                    + CrucialAPIVersion + "/CrucialAPI-v" + CrucialAPIVersion + ".jar"
+                    "https://github.com/ChafficPlugins/CrucialLib/releases/download/v"
+                    + CrucialLibVersion + "/CrucialLib-v" + CrucialLibVersion + ".jar"
                 );
                 ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-                FileOutputStream fos = new FileOutputStream("plugins/CrucialAPI.jar");
+                FileOutputStream fos = new FileOutputStream("plugins/CrucialLib.jar");
                 fos.getChannel().transferFrom(rbc, 0L, Long.MAX_VALUE);
-                Bukkit.getPluginManager().loadPlugin(new File("plugins/CrucialAPI.jar"));
+                Bukkit.getPluginManager().loadPlugin(new File("plugins/CrucialLib.jar"));
             } catch (IOException | InvalidDescriptionException
                      | InvalidPluginException e) {
                 e.printStackTrace();
@@ -107,7 +107,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         if (Server.checkVersion(new String[]{"1.16", "1.15"})) {
-            Crucial.getVersion(CrucialAPIVersion, this);
+            Crucial.getVersion(CrucialLibVersion, this);
         } else {
             Bukkit.getPluginManager().disablePlugin(this);
         }
