@@ -43,7 +43,7 @@ JitPack automatically builds from GitHub tags/releases. Once a GitHub release is
    <dependency>
      <groupId>com.github.ChafficPlugins</groupId>
      <artifactId>CrucialLib</artifactId>
-     <version>X.Y.Z</version>
+     <version>vX.Y.Z</version>
    </dependency>
    ```
 

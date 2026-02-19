@@ -6,6 +6,8 @@
 2. Place the jar in your server's `plugins/` folder
 3. Restart the server
 
+> **Note:** CrucialLib requires a Spigot/Paper 1.21+ server running Java 21.
+
 ## Developers
 
 CrucialLib is available via [JitPack](https://jitpack.io/#ChafficPlugins/CrucialLib).
@@ -29,11 +31,9 @@ Then add the dependency:
 <dependency>
     <groupId>com.github.ChafficPlugins</groupId>
     <artifactId>CrucialLib</artifactId>
-    <version>TAG</version>
+    <version>v3.0.0</version>
 </dependency>
 ```
-
-Replace `TAG` with the desired release tag (e.g. `v2.2.0`).
 
 ### Gradle
 
@@ -49,11 +49,9 @@ Then add the dependency:
 
 ```groovy
 dependencies {
-    implementation 'com.github.ChafficPlugins:CrucialLib:TAG'
+    implementation 'com.github.ChafficPlugins:CrucialLib:v3.0.0'
 }
 ```
-
-Replace `TAG` with the desired release tag (e.g. `v2.2.0`).
 
 ### plugin.yml
 
