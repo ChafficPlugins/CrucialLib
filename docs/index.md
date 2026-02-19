@@ -7,15 +7,18 @@ CrucialLib is a fork of the no longer available [CrucialAPI](https://github.com/
 CrucialLib provides utilities for Spigot plugin development, including:
 
 - **Custom items** — Create items with custom crafting recipes using `CrucialItem`
-- **Config management** — Simplified configuration handling for plugins
+- **Custom GUIs** — Build clickable inventory UIs with `Page` and `InventoryItem`
+- **Localization** — Key-based localization with placeholder support via `Localizer`
+- **Config management** — Simplified JSON and YAML file I/O
 - **Version checking** — Check for plugin updates and server version compatibility
-- **Server compatibility** — Verify the server is running a supported Minecraft version
+- **Player effects** — Titles, boss bars, particles, and visual effects
 
 ## Supported versions
 
 | Version | Supported |
 | ------- | --------- |
-| 2.2.x   | ✅        |
+| 3.0.x   | ✅        |
+| 2.2.x   | ❌        |
 | 2.1.x   | ❌        |
 | 2.0.x   | ❌        |
 | 1.x.x   | ❌        |
@@ -28,4 +31,4 @@ CrucialLib provides utilities for Spigot plugin development, including:
 
 ## Dependencies
 
-CrucialLib requires **Spigot 1.15 or higher**.
+CrucialLib requires **Java 21** and **Spigot 1.21 or higher**.
