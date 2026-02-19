@@ -1,11 +1,11 @@
 package io.github.chafficui.CrucialLib.Utils;
 
 import io.github.chafficui.CrucialLib.Main;
+import org.bukkit.Bukkit;
 
 public class Plugin {
-    private static final Main PLUGIN = Main.getPlugin(Main.class);
 
     public static String getVersion(){
-        return PLUGIN.getDescription().getVersion();
+        return Bukkit.getPluginManager().getPlugin("CrucialLib").getDescription().getVersion();
     }
 }
