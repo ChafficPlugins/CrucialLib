@@ -60,7 +60,7 @@ public class Stack {
         meta.setDisplayName(name);
         meta.setLore(lore);
         if(shiny)
-            meta.addEnchant(Enchantment.DURABILITY, 0, true);
+            meta.addEnchant(Enchantment.UNBREAKING, 0, true);
         return getCleanMeta(stack, meta);
     }
 
@@ -78,7 +78,7 @@ public class Stack {
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
         meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
         meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         stack.setItemMeta(meta);
         return stack;

@@ -4,4 +4,4 @@ author:  ${project.organization.name}
 website:  ${project.organization.url}
 prefix: CrucialLib
 main: io.github.chafficui.CrucialLib.Main
-api-version: 1.13
+api-version: '1.21'

@@ -20,7 +20,7 @@ public class CrucialItem {
         if (stack != null && stack.getItemMeta() != null) {
             Multimap<Attribute, AttributeModifier> attributeModifiers = stack.getItemMeta().getAttributeModifiers();
             if (attributeModifiers != null) {
-                Collection<AttributeModifier> healthModifiers = attributeModifiers.get(Attribute.GENERIC_MAX_HEALTH);
+                Collection<AttributeModifier> healthModifiers = attributeModifiers.get(Attribute.MAX_HEALTH);
                 if (healthModifiers != null) {
                     for (AttributeModifier modifier : healthModifiers) {
                         if (modifier.getName().equals("CRUCIALITEM_ID")) {
@@ -112,7 +112,7 @@ public class CrucialItem {
 
     protected void registerRecipe() throws CrucialException {
         AttributeModifier modifier = new AttributeModifier(this.id, "CRUCIALITEM_ID", 0, AttributeModifier.Operation.ADD_NUMBER);
-        namespacedKey = Item.createItem(id + type, name, Stack.addAttributeModifier(Stack.getStack(Material.getMaterial(material), name, lore), Attribute.GENERIC_MAX_HEALTH, modifier), recipe);
+        namespacedKey = Item.createItem(id + type, name, Stack.addAttributeModifier(Stack.getStack(Material.getMaterial(material), name, lore), Attribute.MAX_HEALTH, modifier), recipe);
     }
 
     public void delete() {
@@ -126,7 +126,7 @@ public class CrucialItem {
     public ItemStack getItemStack() {
         if (isRegistered) {
             AttributeModifier modifier = new AttributeModifier(this.id, "CRUCIALITEM_ID", 0, AttributeModifier.Operation.ADD_NUMBER);
-            return Stack.addAttributeModifier(Stack.getStack(Material.getMaterial(material), name, lore), Attribute.GENERIC_MAX_HEALTH, modifier);
+            return Stack.addAttributeModifier(Stack.getStack(Material.getMaterial(material), name, lore), Attribute.MAX_HEALTH, modifier);
         }
         return null;
     }

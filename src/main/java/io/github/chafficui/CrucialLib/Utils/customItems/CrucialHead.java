@@ -31,7 +31,7 @@ public class CrucialHead extends CrucialItem {
     protected void registerRecipe() throws CrucialException {
         AttributeModifier modifier = new AttributeModifier(this.id, "CRUCIALITEM_ID", 0, AttributeModifier.Operation.ADD_NUMBER);
         if(headOwner != null)
-            this.namespacedKey = Item.createItem(id + type, name, Stack.addAttributeModifier(Stack.getStack(headOwner, name, lore), Attribute.GENERIC_MAX_HEALTH, modifier), recipe);
+            this.namespacedKey = Item.createItem(id + type, name, Stack.addAttributeModifier(Stack.getStack(headOwner, name, lore), Attribute.MAX_HEALTH, modifier), recipe);
         else
             throw new CrucialException(8);
     }
@@ -41,7 +41,7 @@ public class CrucialHead extends CrucialItem {
         if(isRegistered) {
             AttributeModifier modifier = new AttributeModifier(this.id, "CRUCIALITEM_ID", 0, AttributeModifier.Operation.ADD_NUMBER);
             if(headOwner != null)
-                return Stack.addAttributeModifier(Stack.getStack(headOwner, name, lore), Attribute.GENERIC_MAX_HEALTH, modifier);
+                return Stack.addAttributeModifier(Stack.getStack(headOwner, name, lore), Attribute.MAX_HEALTH, modifier);
         }
         return null;
     }

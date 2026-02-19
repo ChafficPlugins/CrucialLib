@@ -17,7 +17,7 @@ public class InventoryItem {
         if (stack != null && stack.getItemMeta() != null) {
             Multimap<Attribute, AttributeModifier> attributeModifiers = stack.getItemMeta().getAttributeModifiers();
             if (attributeModifiers != null) {
-                Collection<AttributeModifier> healthModifiers = attributeModifiers.get(Attribute.GENERIC_MAX_HEALTH);
+                Collection<AttributeModifier> healthModifiers = attributeModifiers.get(Attribute.MAX_HEALTH);
                 if (healthModifiers != null) {
                     for (AttributeModifier modifier : healthModifiers) {
                         if (modifier.getName().equals("CRUCIALLIB_INVENTORYITEM")) {
@@ -38,7 +38,7 @@ public class InventoryItem {
 
     public InventoryItem(int slot, Material material, String name, List<String> lore, Action action) {
         AttributeModifier modifier = new AttributeModifier("CRUCIALLIB_INVENTORYITEM", 0d, AttributeModifier.Operation.ADD_NUMBER);
-        this.stack = Stack.addAttributeModifier(Stack.getStack(material, name, lore), Attribute.GENERIC_MAX_HEALTH, modifier);
+        this.stack = Stack.addAttributeModifier(Stack.getStack(material, name, lore), Attribute.MAX_HEALTH, modifier);
         this.action = action;
         this.slot = slot;
         this.isMovable = false;
@@ -46,7 +46,7 @@ public class InventoryItem {
 
     public InventoryItem(int slot, Material material, String name, List<String> lore, Action action, boolean isMovable) {
         AttributeModifier modifier = new AttributeModifier("CRUCIALLIB_INVENTORYITEM", 0d, AttributeModifier.Operation.ADD_NUMBER);
-        this.stack = Stack.addAttributeModifier(Stack.getStack(material, name, lore), Attribute.GENERIC_MAX_HEALTH, modifier);
+        this.stack = Stack.addAttributeModifier(Stack.getStack(material, name, lore), Attribute.MAX_HEALTH, modifier);
         this.action = action;
         this.slot = slot;
         this.isMovable = isMovable;
@@ -55,7 +55,7 @@ public class InventoryItem {
     public InventoryItem(int slot, ItemStack stack, Action action) {
         this.slot = slot;
         AttributeModifier modifier = new AttributeModifier("CRUCIALLIB_INVENTORYITEM", 0d, AttributeModifier.Operation.ADD_NUMBER);
-        this.stack = Stack.addAttributeModifier(stack, Attribute.GENERIC_MAX_HEALTH, modifier);
+        this.stack = Stack.addAttributeModifier(stack, Attribute.MAX_HEALTH, modifier);
         this.action = action;
         this.isMovable = false;
     }
@@ -63,7 +63,7 @@ public class InventoryItem {
     public InventoryItem(int slot, ItemStack stack, Action action, boolean isMovable) {
         this.slot = slot;
         AttributeModifier modifier = new AttributeModifier("CRUCIALLIB_INVENTORYITEM", 0d, AttributeModifier.Operation.ADD_NUMBER);
-        this.stack = Stack.addAttributeModifier(stack, Attribute.GENERIC_MAX_HEALTH, modifier);
+        this.stack = Stack.addAttributeModifier(stack, Attribute.MAX_HEALTH, modifier);
         this.action = action;
         this.isMovable = isMovable;
     }
@@ -71,7 +71,7 @@ public class InventoryItem {
     public InventoryItem(int slot, ItemStack stack) {
         this.slot = slot;
         AttributeModifier modifier = new AttributeModifier("CRUCIALLIB_INVENTORYITEM", 0d, AttributeModifier.Operation.ADD_NUMBER);
-        this.stack = Stack.addAttributeModifier(stack, Attribute.GENERIC_MAX_HEALTH, modifier);
+        this.stack = Stack.addAttributeModifier(stack, Attribute.MAX_HEALTH, modifier);
         this.action = click -> {};
         this.isMovable = false;
     }
@@ -79,7 +79,7 @@ public class InventoryItem {
     public InventoryItem(int slot, ItemStack stack, boolean isMovable) {
         this.slot = slot;
         AttributeModifier modifier = new AttributeModifier("CRUCIALLIB_INVENTORYITEM", 0d, AttributeModifier.Operation.ADD_NUMBER);
-        this.stack = Stack.addAttributeModifier(stack, Attribute.GENERIC_MAX_HEALTH, modifier);
+        this.stack = Stack.addAttributeModifier(stack, Attribute.MAX_HEALTH, modifier);
         this.action = click -> {};
         this.isMovable = isMovable;
     }
@@ -87,7 +87,7 @@ public class InventoryItem {
     public InventoryItem(int slot) {
         this.slot = slot;
         AttributeModifier modifier = new AttributeModifier("CRUCIALLIB_INVENTORYITEM", 0d, AttributeModifier.Operation.ADD_NUMBER);
-        this.stack = Stack.addAttributeModifier(new ItemStack(Material.WHITE_STAINED_GLASS_PANE), Attribute.GENERIC_MAX_HEALTH, modifier);
+        this.stack = Stack.addAttributeModifier(new ItemStack(Material.WHITE_STAINED_GLASS_PANE), Attribute.MAX_HEALTH, modifier);
         this.action = click -> {};
         this.isMovable = false;
     }
@@ -95,7 +95,7 @@ public class InventoryItem {
     public InventoryItem(int slot, boolean isMovable) {
         this.slot = slot;
         AttributeModifier modifier = new AttributeModifier("CRUCIALLIB_INVENTORYITEM", 0d, AttributeModifier.Operation.ADD_NUMBER);
-        this.stack = Stack.addAttributeModifier(new ItemStack(Material.WHITE_STAINED_GLASS_PANE), Attribute.GENERIC_MAX_HEALTH, modifier);
+        this.stack = Stack.addAttributeModifier(new ItemStack(Material.WHITE_STAINED_GLASS_PANE), Attribute.MAX_HEALTH, modifier);
         this.action = click -> {};
         this.isMovable = isMovable;
     }

@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 
-public final class Main extends JavaPlugin {
+public class Main extends JavaPlugin {
     private final String version = getDescription().getVersion();
     private Stats stats;
 
