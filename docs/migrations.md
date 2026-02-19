@@ -31,13 +31,13 @@ No configuration changes are needed — existing configs will continue to work.
     implementation 'com.github.ChafficPlugins:CrucialLib:TAG'
     ```
 
-2. **Keep `plugin.yml` as-is** — the dependency name must remain `CrucialAPI` for backwards compatibility:
+2. **Update `plugin.yml`** — change the dependency name to `CrucialLib`:
 
     ```yaml
-    depend: [CrucialAPI]
+    depend: [CrucialLib]
     ```
 
-3. **No code changes required** — all package names, class names, and method signatures remain the same.
+3. **Update package imports** — replace `io.github.chafficui.CrucialAPI` with `io.github.chafficui.CrucialLib` in your code.
 
 ## Version history
 

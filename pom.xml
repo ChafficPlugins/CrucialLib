@@ -5,17 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.chafficui</groupId>
-    <artifactId>CrucialAPI</artifactId>
+    <artifactId>CrucialLib</artifactId>
     <version>2.2.0</version>
 
-    <name>CrucialAPI</name>
+    <name>CrucialLib</name>
 
     <organization>
         <name>ChafficPlugins</name>
         <url>https://ChafficPlugins.github.io</url>
     </organization>
-    <description>CrucialAPI is an easy-to-use API for spigot developers. It aims to make all features of Spigot even easier to use in a consistent way. In addition, there are numerous other functions far beyond Spigot that can be used easily.</description>
-    <url>https://github.com/Chafficui/CrucialAPI</url>
+    <description>CrucialLib is an easy-to-use library for spigot developers. It aims to make all features of Spigot even easier to use in a consistent way. In addition, there are numerous other functions far beyond Spigot that can be used easily.</description>
+    <url>https://github.com/ChafficPlugins/CrucialLib</url>
 
     <developers>
         <developer>
@@ -39,9 +39,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git://github.com/Chafficui/CrucialAPI.git</connection>
-        <developerConnection>scm:git:ssh://GitHub.com:Chafficui/CrucialAPI.git</developerConnection>
-        <url>https://github.com/Chafficui/CrucialAPI/tree/master</url>
+        <connection>scm:git:git://github.com/ChafficPlugins/CrucialLib.git</connection>
+        <developerConnection>scm:git:ssh://GitHub.com:ChafficPlugins/CrucialLib.git</developerConnection>
+        <url>https://github.com/ChafficPlugins/CrucialLib/tree/master</url>
     </scm>
 
     <distributionManagement>
