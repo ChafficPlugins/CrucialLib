@@ -1,18 +1,21 @@
 package io.github.chafficui.CrucialLib.Utils.api;
 
-import io.github.chafficui.CrucialLib.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 
 public class Bossbar {
-    private static final Main PLUGIN = Main.getPlugin(Main.class);
     private static final HashMap<Player, Bar> bossbars = new HashMap<>();
+
+    private static JavaPlugin getPlugin() {
+        return (JavaPlugin) Bukkit.getPluginManager().getPlugin("CrucialLib");
+    }
 
     private static class Bar {
         BossBar bar;
@@ -28,7 +31,7 @@ public class Bossbar {
                     bar.removePlayer(player);
                 }
             };
-            runnable.runTaskLater(PLUGIN, ticks);
+            runnable.runTaskLater(getPlugin(), ticks);
         }
 
         public void newTime(long ticks) {
@@ -39,7 +42,7 @@ public class Bossbar {
                     bar.removePlayer(player);
                 }
             };
-            runnable.runTaskLater(PLUGIN, ticks);
+            runnable.runTaskLater(getPlugin(), ticks);
         }
     }
 

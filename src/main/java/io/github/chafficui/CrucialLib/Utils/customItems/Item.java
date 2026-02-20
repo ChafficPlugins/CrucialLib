@@ -1,20 +1,22 @@
 package io.github.chafficui.CrucialLib.Utils.customItems;
 
 import io.github.chafficui.CrucialLib.Utils.Server;
-import io.github.chafficui.CrucialLib.Main;
 import io.github.chafficui.CrucialLib.exceptions.CrucialException;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Item {
-    private static final Main PLUGIN = Main.getPlugin(Main.class);
+    private static JavaPlugin getPlugin() {
+        return (JavaPlugin) Bukkit.getPluginManager().getPlugin("CrucialLib");
+    }
 
     public static NamespacedKey createItem(String key, String name, List<String> lore,
                                            Material material, String[] recipe) throws CrucialException {
@@ -48,7 +50,7 @@ public class Item {
         name = name.replaceAll(" ", "_");
         key = key.replaceAll(" ", "_");
         key = key.replaceAll(":", ".");
-        NamespacedKey namespacedKey = new NamespacedKey(PLUGIN, name + key);
+        NamespacedKey namespacedKey = new NamespacedKey(getPlugin(), name + key);
         ShapedRecipe shapedRecipe = new ShapedRecipe(namespacedKey, stack);
         int num = 48;
 
@@ -56,8 +58,11 @@ public class Item {
 
         for (String item:recipe) {
             num++;
-            char c = (char)num;
-            shapedRecipe.setIngredient(c, Objects.requireNonNull(Material.getMaterial(item)));
+            Material mat = Objects.requireNonNull(Material.getMaterial(item));
+            if (mat != Material.AIR) {
+                char c = (char)num;
+                shapedRecipe.setIngredient(c, mat);
+            }
         }
 
         Bukkit.addRecipe(shapedRecipe);
