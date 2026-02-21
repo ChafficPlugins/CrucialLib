@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 public class VisualEffects {
     private static final Main plugin = Main.getPlugin(Main.class);
-    private static final Border border = new Border(plugin);
+    private static final Border border = new Border();
 
     /**
      * @param player a player to receive the blood effect.

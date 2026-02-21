@@ -39,7 +39,7 @@ Javadoc is automatically generated on each GitHub release via the [Generate Java
 | `io.github.chafficui.CrucialLib` | Plugin entry point (`Main`) |
 | `io.github.chafficui.CrucialLib.Events` | Event listeners for custom item interactions and crafting |
 | `io.github.chafficui.CrucialLib.Utils` | Server utilities, plugin metadata, bStats wrapper |
-| `io.github.chafficui.CrucialLib.Utils.api` | Low-level APIs: world border, boss bars, NMS packets, titles, auto-updater |
+| `io.github.chafficui.CrucialLib.Utils.api` | Low-level APIs: world border, boss bars, titles, auto-updater |
 | `io.github.chafficui.CrucialLib.Utils.customItems` | Custom item system: `CrucialItem`, `CrucialHead`, `Stack`, recipe creation |
 | `io.github.chafficui.CrucialLib.Utils.localization` | Key-based localization with YAML support |
 | `io.github.chafficui.CrucialLib.Utils.player.effects` | Title display, tablist customization, blood effects, particles |
