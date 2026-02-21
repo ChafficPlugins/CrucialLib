@@ -12,6 +12,14 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * Auto-updater that checks for new versions via the Spiget API and optionally downloads them.
+ * <p>
+ * Runs on a background thread so the server tick loop is not blocked during
+ * HTTP requests. Supports version checking, direct downloading, and combined
+ * check-then-download workflows via the {@link UpdateType} enum.
+ * </p>
+ */
 public class Updater {
 
     private static final String USER_AGENT = "Updater by Chaffic";
@@ -40,6 +48,16 @@ public class Updater {
     private static final String PAGE = "?page=";
     private static final String API_RESOURCE = "https://api.spiget.org/v2/resources/";
 
+    /**
+     * Creates a new Updater and immediately starts a background thread to check
+     * for updates (and optionally download them) from the Spiget API.
+     *
+     * @param plugin     the plugin instance requesting the update check
+     * @param id         the Spiget resource ID for the plugin
+     * @param file       the plugin's JAR file, used to determine the download target name
+     * @param updateType the type of update action to perform
+     * @param logger     {@code true} to log progress messages to the console, {@code false} for silent operation
+     */
     public Updater(Plugin plugin, int id, File file, UpdateType updateType, boolean logger)
     {
         this.plugin = plugin;
@@ -56,13 +74,16 @@ public class Updater {
         thread.start();
     }
 
+    /**
+     * Defines the behavior of the updater when it runs.
+     */
     public enum UpdateType
     {
-        // Checks only the version
+        /** Checks only the version without downloading anything. */
         VERSION_CHECK,
-        // Downloads without checking the version
+        /** Downloads the resource without checking whether the version is newer. */
         DOWNLOAD,
-        // If updater finds new version automatically it downloads it.
+        /** Checks the version and automatically downloads if a new version is found. */
         CHECK_DOWNLOAD
 
     }

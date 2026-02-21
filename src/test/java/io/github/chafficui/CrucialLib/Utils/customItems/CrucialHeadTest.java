@@ -96,7 +96,7 @@ class CrucialHeadTest {
     }
 
     @Test
-    void getItemStackHasAttributeModifier() throws CrucialException {
+    void getItemStackHasPersistentDataContainerId() throws CrucialException {
         UUID owner = UUID.randomUUID();
         String[] recipe = new String[]{"AIR", "AIR", "AIR", "AIR", "DIAMOND", "AIR", "AIR", "AIR", "AIR"};
         CrucialHead head = new CrucialHead("Trophy", owner, List.of(), recipe, "trophy", true, true, false);
@@ -104,13 +104,51 @@ class CrucialHeadTest {
 
         ItemStack stack = head.getItemStack();
         assertNotNull(stack.getItemMeta());
-        assertNotNull(stack.getItemMeta().getAttributeModifiers());
-        assertTrue(stack.getItemMeta().getAttributeModifiers().containsKey(org.bukkit.attribute.Attribute.MAX_HEALTH));
+        UUID extractedId = CrucialItem.getId(stack);
+        assertNotNull(extractedId);
+        assertEquals(head.getId(), extractedId);
     }
 
     @Test
     void headInheritsFromCrucialItem() {
         CrucialHead head = new CrucialHead("trophy");
         assertInstanceOf(CrucialItem.class, head);
+    }
+
+    // --- Round-trip identification tests ---
+
+    @Test
+    void getByStackFindsRegisteredHead() throws CrucialException {
+        UUID owner = UUID.randomUUID();
+        String[] recipe = new String[]{"AIR", "AIR", "AIR", "AIR", "DIAMOND", "AIR", "AIR", "AIR", "AIR"};
+        CrucialHead head = new CrucialHead("Trophy", owner, List.of(), recipe, "trophy", true, true, false);
+        head.register();
+
+        ItemStack stack = head.getItemStack();
+        CrucialItem found = CrucialItem.getByStack(stack);
+        assertNotNull(found, "getByStack should find the registered head");
+        assertSame(head, found);
+    }
+
+    @Test
+    void getIdRoundTripMatchesHeadId() throws CrucialException {
+        UUID owner = UUID.randomUUID();
+        String[] recipe = new String[]{"AIR", "AIR", "AIR", "AIR", "DIAMOND", "AIR", "AIR", "AIR", "AIR"};
+        CrucialHead head = new CrucialHead("Trophy", owner, List.of(), recipe, "trophy", true, true, false);
+        head.register();
+
+        ItemStack stack = head.getItemStack();
+        UUID extractedId = CrucialItem.getId(stack);
+        assertEquals(head.getId(), extractedId, "Round-trip ID should match the head's UUID");
+    }
+
+    @Test
+    void multipleGetItemStackCallsReturnConsistentId() throws CrucialException {
+        UUID owner = UUID.randomUUID();
+        String[] recipe = new String[]{"AIR", "AIR", "AIR", "AIR", "DIAMOND", "AIR", "AIR", "AIR", "AIR"};
+        CrucialHead head = new CrucialHead("Trophy", owner, List.of(), recipe, "trophy", true, true, false);
+        head.register();
+
+        assertEquals(CrucialItem.getId(head.getItemStack()), CrucialItem.getId(head.getItemStack()));
     }
 }

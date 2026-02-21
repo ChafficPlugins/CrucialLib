@@ -12,6 +12,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 
+/**
+ * CrucialLib plugin entry point.
+ * <p>
+ * Registers event listeners, sets up configuration, and initializes bStats metrics.
+ * This class extends {@link JavaPlugin} and serves as the main lifecycle manager
+ * for the CrucialLib shared library.
+ * </p>
+ */
 public class Main extends JavaPlugin {
     private final String version = getDescription().getVersion();
     private Stats stats;
@@ -49,6 +57,12 @@ public class Main extends JavaPlugin {
         }
     }
 
+    /**
+     * Returns the current version string of the CrucialLib plugin,
+     * as defined in the plugin descriptor ({@code plugin.yml}).
+     *
+     * @return the plugin version string
+     */
     public String getVersion() {
         return version;
     }

@@ -75,4 +75,41 @@ class CrucialItemEventsTest {
     void nullItemIsNotRecognizedAsCrucialItem() {
         assertNull(CrucialItem.getId(null), "Null should not be recognized as a CrucialItem");
     }
+
+    // --- ID detection via ItemStack (event handler would use these paths) ---
+
+    @Test
+    void nonUsableItemIsDetectedViaStack() throws CrucialException {
+        String[] recipe = new String[]{"AIR", "AIR", "AIR", "AIR", "DIAMOND", "AIR", "AIR", "AIR", "AIR"};
+        CrucialItem item = new CrucialItem("Blocked", Material.DIAMOND_SWORD, List.of(), recipe, "test", true, false, false);
+        item.register();
+
+        ItemStack stack = item.getItemStack();
+        CrucialItem found = CrucialItem.getByStack(stack);
+        assertNotNull(found, "Event handler should be able to find the item via its stack");
+        assertFalse(found.isUsable, "Found item should be non-usable");
+    }
+
+    @Test
+    void usableItemIsDetectedViaStack() throws CrucialException {
+        String[] recipe = new String[]{"AIR", "AIR", "AIR", "AIR", "DIAMOND", "AIR", "AIR", "AIR", "AIR"};
+        CrucialItem item = new CrucialItem("Usable", Material.IRON_SWORD, List.of(), recipe, "test", true, true, false);
+        item.register();
+
+        ItemStack stack = item.getItemStack();
+        CrucialItem found = CrucialItem.getByStack(stack);
+        assertNotNull(found, "Event handler should be able to find the item via its stack");
+        assertTrue(found.isUsable, "Found item should be usable");
+    }
+
+    @Test
+    void craftingFlagIsDetectedViaStack() throws CrucialException {
+        String[] recipe = new String[]{"AIR", "AIR", "AIR", "AIR", "DIAMOND", "AIR", "AIR", "AIR", "AIR"};
+        CrucialItem allowed = new CrucialItem("Allowed", Material.DIAMOND, List.of(), recipe, "test", true, true, true);
+        allowed.register();
+
+        CrucialItem found = CrucialItem.getByStack(allowed.getItemStack());
+        assertNotNull(found);
+        assertTrue(found.isAllowedForCrafting, "Crafting flag should be accessible via stack lookup");
+    }
 }

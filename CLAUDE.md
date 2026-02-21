@@ -33,7 +33,7 @@ src/main/java/io/github/chafficui/CrucialLib/
 │   ├── Stats.java                     # bStats pie chart wrapper
 │   ├── api/
 │   │   ├── BStats.java               # Embedded bStats metrics client
-│   │   ├── Border.java               # Per-player world border via NMS packets
+│   │   ├── Border.java               # Per-player world border via Bukkit API
 │   │   ├── Bossbar.java              # Timed boss bar display utility
 │   │   ├── Package.java              # NMS reflection helpers (getHandle, sendPacket)
 │   │   ├── Title.java                # Title/subtitle sender
@@ -70,7 +70,7 @@ src/main/java/io/github/chafficui/CrucialLib/
 ## Key Classes
 
 - **Main**: Plugin lifecycle (onEnable/onDisable), registers events, sets up config and bStats
-- **CrucialItem**: Core custom item system — items are identified by a UUID stored as an AttributeModifier on MAX_HEALTH. Items can register/unregister shaped crafting recipes
+- **CrucialItem**: Core custom item system — items are identified by a UUID stored in the PersistentDataContainer. Items can register/unregister shaped crafting recipes
 - **Stack**: Builder for ItemStack creation with display names, lore, enchantments, attribute modifiers, and hidden item flags
 - **Server**: Version compatibility checking via `Bukkit.getVersion().contains(...)`, plus logging
 - **Localizer**: Key-based localization with `identifier_key` format and `{0}`, `{1}` placeholder substitution
@@ -79,8 +79,8 @@ src/main/java/io/github/chafficui/CrucialLib/
 ## Important Notes
 
 - This is a **library** — API stability matters. Don't break existing public methods without a MAJOR version bump.
-- The `Border` and `Package` classes use NMS reflection, which is version-specific and may not work on all server implementations.
-- Custom items use `Attribute.MAX_HEALTH` with a modifier named `"CRUCIALITEM_ID"` as their identification mechanism.
+- The `Package` class uses NMS reflection, which is version-specific and may not work on all server implementations.
+- Custom items use a UUID stored in the `PersistentDataContainer` as their identification mechanism.
 - CI must pass before merging any PR.
 - Distribution is via JitPack (create a GitHub release/tag to publish).
 

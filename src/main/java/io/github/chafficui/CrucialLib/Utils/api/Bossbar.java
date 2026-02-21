@@ -10,6 +10,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 
+/**
+ * Utility for displaying timed boss bars to players.
+ * <p>
+ * Reuses existing bars for the same player, updating the text, color, and
+ * duration instead of creating a new bar each time.
+ * </p>
+ */
 public class Bossbar {
     private static final HashMap<Player, Bar> bossbars = new HashMap<>();
 

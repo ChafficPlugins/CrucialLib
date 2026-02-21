@@ -6,7 +6,7 @@
 
     <groupId>io.github.chafficui</groupId>
     <artifactId>CrucialLib</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1</version>
 
     <name>CrucialLib</name>
 
@@ -116,6 +116,27 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.3</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <doclint>none</doclint>
+                    <quiet>true</quiet>
+                    <links>
+                        <link>https://jd.papermc.io/paper/1.21/</link>
+                    </links>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

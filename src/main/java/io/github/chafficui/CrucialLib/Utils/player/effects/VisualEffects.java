@@ -9,9 +9,14 @@ import org.bukkit.entity.Player;
 
 import java.util.Objects;
 
+/**
+ * Utility for blood (world border vignette) effects and particle spawning.
+ *
+ * @see io.github.chafficui.CrucialLib.Utils.api.Border
+ */
 public class VisualEffects {
     private static final Main plugin = Main.getPlugin(Main.class);
-    private static final Border border = new Border(plugin);
+    private static final Border border = new Border();
 
     /**
      * @param player a player to receive the blood effect.

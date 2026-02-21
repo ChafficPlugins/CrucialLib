@@ -288,16 +288,17 @@ class CrucialItemTest {
     }
 
     @Test
-    void getItemStackHasMaxHealthAttributeModifier() throws CrucialException {
+    void getItemStackHasPersistentDataContainerId() throws CrucialException {
         String[] recipe = new String[]{"AIR", "AIR", "AIR", "AIR", "DIAMOND", "AIR", "AIR", "AIR", "AIR"};
         CrucialItem item = new CrucialItem("Sword", Material.DIAMOND_SWORD, List.of(), recipe, "weapon", true, true, false);
         item.register();
 
         ItemStack stack = item.getItemStack();
         assertNotNull(stack.getItemMeta());
-        assertNotNull(stack.getItemMeta().getAttributeModifiers());
-        // The item should have a MAX_HEALTH modifier used for identification
-        assertTrue(stack.getItemMeta().getAttributeModifiers().containsKey(org.bukkit.attribute.Attribute.MAX_HEALTH));
+        // The item should have a PDC entry used for identification
+        UUID extractedId = CrucialItem.getId(stack);
+        assertNotNull(extractedId);
+        assertEquals(item.getId(), extractedId);
     }
 
     @Test
@@ -317,13 +318,9 @@ class CrucialItemTest {
     }
 
     @Test
-    void getByStackReturnsNullForStackWithNonCrucialModifier() {
-        // A stack with a generic attribute modifier should not be recognized as a CrucialItem
-        ItemStack stack = Stack.addAttributeModifier(
-                Stack.getStack(Material.STONE, "Stone"),
-                org.bukkit.attribute.Attribute.MAX_HEALTH,
-                new org.bukkit.attribute.AttributeModifier("NOT_CRUCIALITEM", 0, org.bukkit.attribute.AttributeModifier.Operation.ADD_NUMBER)
-        );
+    void getByStackReturnsNullForStackWithoutPDCId() {
+        // A plain stack without PDC data should not be recognized as a CrucialItem
+        ItemStack stack = Stack.getStack(Material.STONE, "Stone");
         assertNull(CrucialItem.getByStack(stack));
     }
 
@@ -347,6 +344,84 @@ class CrucialItemTest {
         item.unregister();
 
         assertNull(CrucialItem.getById(id));
+    }
+
+    // --- Round-trip ID identification tests ---
+
+    @Test
+    void getIdFromRegisteredItemStack() throws CrucialException {
+        String[] recipe = new String[]{"AIR", "AIR", "AIR", "AIR", "DIAMOND", "AIR", "AIR", "AIR", "AIR"};
+        CrucialItem item = new CrucialItem("Sword", Material.DIAMOND_SWORD, List.of(), recipe, "weapon", true, true, false);
+        item.register();
+
+        ItemStack stack = item.getItemStack();
+        UUID extractedId = CrucialItem.getId(stack);
+        assertNotNull(extractedId, "getId should extract the UUID from a registered item's stack");
+        assertEquals(item.getId(), extractedId, "Extracted ID should match the original item's ID");
+    }
+
+    @Test
+    void getByStackFindsRegisteredItem() throws CrucialException {
+        String[] recipe = new String[]{"AIR", "AIR", "AIR", "AIR", "DIAMOND", "AIR", "AIR", "AIR", "AIR"};
+        CrucialItem item = new CrucialItem("Sword", Material.DIAMOND_SWORD, List.of(), recipe, "weapon", true, true, false);
+        item.register();
+
+        ItemStack stack = item.getItemStack();
+        CrucialItem found = CrucialItem.getByStack(stack);
+        assertNotNull(found, "getByStack should find the registered item");
+        assertSame(item, found, "getByStack should return the same instance");
+    }
+
+    @Test
+    void getByStackDistinguishesMultipleItems() throws CrucialException {
+        String[] recipe1 = new String[]{"AIR", "AIR", "AIR", "AIR", "DIAMOND", "AIR", "AIR", "AIR", "AIR"};
+        CrucialItem sword = new CrucialItem("Sword", Material.DIAMOND_SWORD, List.of(), recipe1, "weapon", true, true, false);
+        String[] recipe2 = new String[]{"AIR", "AIR", "AIR", "AIR", "IRON_INGOT", "AIR", "AIR", "AIR", "AIR"};
+        CrucialItem axe = new CrucialItem("Axe", Material.IRON_AXE, List.of(), recipe2, "tool", true, true, false);
+        sword.register();
+        axe.register();
+
+        assertSame(sword, CrucialItem.getByStack(sword.getItemStack()));
+        assertSame(axe, CrucialItem.getByStack(axe.getItemStack()));
+        assertNotEquals(CrucialItem.getId(sword.getItemStack()), CrucialItem.getId(axe.getItemStack()));
+    }
+
+    @Test
+    void getIdReturnsNullForStackWithoutPDC() {
+        ItemStack stack = new ItemStack(Material.DIAMOND_SWORD);
+        assertNull(CrucialItem.getId(stack), "Plain stack without PDC data should return null");
+    }
+
+    @Test
+    void getIdReturnsNullForStackWithNullMeta() {
+        ItemStack stack = new ItemStack(Material.AIR);
+        assertNull(CrucialItem.getId(stack));
+    }
+
+    @Test
+    void getByStackReturnsNullWhenIdExistsButItemNotRegistered() throws CrucialException {
+        String[] recipe = new String[]{"AIR", "AIR", "AIR", "AIR", "DIAMOND", "AIR", "AIR", "AIR", "AIR"};
+        CrucialItem item = new CrucialItem("Sword", Material.DIAMOND_SWORD, List.of(), recipe, "weapon", true, true, false);
+        item.register();
+
+        ItemStack stack = item.getItemStack();
+        item.unregister();
+
+        UUID extractedId = CrucialItem.getId(stack);
+        assertNotNull(extractedId, "PDC data should survive on the stack even after unregister");
+        assertNull(CrucialItem.getByStack(stack), "getByStack should return null when the item is no longer registered");
+    }
+
+    @Test
+    void multipleGetItemStackCallsReturnConsistentId() throws CrucialException {
+        String[] recipe = new String[]{"AIR", "AIR", "AIR", "AIR", "DIAMOND", "AIR", "AIR", "AIR", "AIR"};
+        CrucialItem item = new CrucialItem("Sword", Material.DIAMOND_SWORD, List.of(), recipe, "weapon", true, true, false);
+        item.register();
+
+        ItemStack stack1 = item.getItemStack();
+        ItemStack stack2 = item.getItemStack();
+        assertEquals(CrucialItem.getId(stack1), CrucialItem.getId(stack2),
+                "Multiple getItemStack calls should produce stacks with the same ID");
     }
 
     // --- Equality tests ---
