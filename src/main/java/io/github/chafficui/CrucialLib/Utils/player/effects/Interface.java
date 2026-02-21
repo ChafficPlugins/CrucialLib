@@ -3,6 +3,11 @@ package io.github.chafficui.CrucialLib.Utils.player.effects;
 import io.github.chafficui.CrucialLib.Utils.api.Title;
 import org.bukkit.entity.Player;
 
+/**
+ * Utility for displaying titles, managing tablist headers/footers, and setting player display names.
+ *
+ * @see io.github.chafficui.CrucialLib.Utils.api.Title
+ */
 public class Interface {
     /**
      * @param player a player to show the text to.

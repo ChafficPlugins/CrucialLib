@@ -28,7 +28,7 @@ Then add the dependency:
 <dependency>
     <groupId>com.github.ChafficPlugins</groupId>
     <artifactId>CrucialLib</artifactId>
-    <version>v3.0.0</version>
+    <version>v3.0.1</version>
 </dependency>
 ```
 
@@ -40,7 +40,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.ChafficPlugins:CrucialLib:v3.0.0'
+    implementation 'com.github.ChafficPlugins:CrucialLib:v3.0.1'
 }
 ```
 
@@ -50,50 +50,120 @@ dependencies {
 depend: [CrucialLib]
 ```
 
-## Examples
+## Features
+
+### Custom Items
+
+Register custom items with unique IDs, crafting recipes, and interaction control. Items are identified via `PersistentDataContainer`, so they survive serialization reliably on Bukkit 1.21+.
 
 ```java
-public class Main extends JavaPlugin {
-    private final String CrucialLibVersion = "3.0.0";
+// Create and register a custom item
+String[] recipe = {
+    "AIR", "DIAMOND", "AIR",
+    "AIR", "STICK",    "AIR",
+    "AIR", "STICK",    "AIR"
+};
+CrucialItem sword = new CrucialItem("Super Sword", Material.DIAMOND_SWORD,
+    List.of("A powerful blade"), recipe, "weapon", true, true, false);
+sword.register();
 
-    /** Auto-download CrucialLib */
-    @Override
-    public void onLoad() {
-        if (getServer().getPluginManager().getPlugin("CrucialLib") == null) {
-            try {
-                URL website = new URL(
-                    "https://github.com/ChafficPlugins/CrucialLib/releases/download/v"
-                    + CrucialLibVersion + "/CrucialLib-v" + CrucialLibVersion + ".jar"
-                );
-                ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-                FileOutputStream fos = new FileOutputStream("plugins/CrucialLib.jar");
-                fos.getChannel().transferFrom(rbc, 0L, Long.MAX_VALUE);
-                Bukkit.getPluginManager().loadPlugin(new File("plugins/CrucialLib.jar"));
-            } catch (IOException | InvalidDescriptionException
-                     | org.bukkit.plugin.InvalidPluginException e) {
-                e.printStackTrace();
-                Bukkit.getPluginManager().disablePlugin(this);
-            }
-        }
-    }
-
-    @Override
-    public void onEnable() {
-        if (Server.checkCompatibility("1.21")) {
-            // Server is running a supported version, continue startup
-        } else {
-            // Unsupported version — disable the plugin
-            Bukkit.getPluginManager().disablePlugin(this);
-        }
-
-        new CrucialItem("Super shovel", Material.DIAMOND_SHOVEL, "item")
-            .setCrafting(new String[]{
-                "AIR", "AIR", "AIR",
-                "DIAMOND", "DIAMOND", "DIAMOND",
-                "AIR", "AIR", "AIR"
-            });
-    }
+// Identify a custom item from a player's hand
+CrucialItem found = CrucialItem.getByStack(player.getInventory().getItemInMainHand());
+if (found != null) {
+    // It's a registered CrucialItem
 }
+```
+
+### Custom Inventories (GUIs)
+
+Build interactive chest GUIs with clickable items, fill materials, and prefab components.
+
+```java
+// Create a custom page and open it
+Page settings = new Page(3, "Settings", Material.GRAY_STAINED_GLASS_PANE) {
+    @Override
+    public void populate() {
+        addItem(new InventoryItem(13, Material.DIAMOND, "Click me", List.of(),
+            click -> click.getPlayer().sendMessage("Clicked!")));
+    }
+};
+settings.open(player);
+
+// Prefabs for common patterns
+addItems(new TogglePrefab(10, click -> enableFeature(), click -> disableFeature()));
+addItems(new YesNoButtonsPrefab(11, 15, click -> confirm(), click -> cancel()));
+```
+
+### Localization
+
+Key-based localization with YAML files and placeholder substitution.
+
+```java
+// Register a localization source from a YAML file
+new LocalizedFromYaml("myPlugin", getDataFolder(), "lang.yml");
+
+// Retrieve a translated string: key format is "identifier_yamlkey"
+String msg = Localizer.getLocalizedString("myPlugin_welcome", playerName);
+// If lang.yml contains: welcome: "Hello {0}!" -> returns "Hello Steve!"
+```
+
+### Player Effects
+
+Title/subtitle display, tablist customization, blood screen effects, and particle spawning.
+
+```java
+// Show a title
+Interface.showText(player, "Welcome", "Enjoy your stay", 3);
+
+// Blood screen effect (uses world border vignette)
+VisualEffects.setBlood(player, 50, 2.0f);  // 50% intensity for 2 seconds
+
+// Spawn particles
+VisualEffects.showParticles(player, Particle.HEART, 20);
+```
+
+### Timed Boss Bars
+
+```java
+Bossbar.sendBossbar(player, "Quest Progress", BarColor.GREEN, 75f, 100L);
+```
+
+### JSON & YAML I/O
+
+```java
+// JSON
+Json.saveFile(Json.toJson(myObject), "data.json");
+MyClass obj = Json.fromJson("data.json", MyClass.class);
+
+// YAML (Bukkit YamlConfiguration)
+YamlConfiguration config = Yaml.loadFile(getDataFolder(), "settings.yml");
+Yaml.saveFile(config, getDataFolder(), "settings.yml");
+```
+
+### Server Utilities
+
+```java
+// Version compatibility check
+if (Server.checkCompatibility("1.21", "1.20")) {
+    // Server is running a supported version
+}
+
+// Console logging
+Server.log("Plugin enabled successfully");
+Server.error("Something went wrong");
+```
+
+### Auto-Updater
+
+```java
+new Updater(this, SPIGET_RESOURCE_ID, getFile(), Updater.UpdateType.CHECK_DOWNLOAD, true);
+```
+
+### bStats Integration
+
+```java
+Stats stats = new Stats(this, BSTATS_PLUGIN_ID);
+stats.sendPieChart("server_type", "survival");
 ```
 
 ## Download
@@ -105,9 +175,17 @@ If you want the most up-to-date builds, you can find them here: [Releases](https
 
 Full documentation is available in the [docs/](docs/) directory:
 
-- [Setup Guide](docs/setup.md) — Installation for server admins and developers
-- [API Guide](docs/api-guide.md) — Code examples for all major APIs
-- [Migration Guide](docs/migrations.md) — Upgrading from CrucialAPI or older versions
+- [Setup Guide](docs/setup.md) -- Installation for server admins and developers
+- [API Guide](docs/api-guide.md) -- Code examples for all major APIs
+- [Javadoc](docs/javadoc.md) -- Generated API reference (updated on each release)
+- [Migration Guide](docs/migrations.md) -- Upgrading from CrucialAPI or older versions
+
+## Generating Javadoc locally
+
+```bash
+mvn javadoc:javadoc
+# Output: target/site/apidocs/
+```
 
 ## Getting Help
 

@@ -8,6 +8,16 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+/**
+ * Per-player world border effect using NMS reflection packets.
+ * <p>
+ * Creates a visual vignette/blood effect on the player's screen by manipulating
+ * the world border warning distance. Note: Uses version-specific NMS internals
+ * and may not work on all server implementations.
+ * </p>
+ *
+ * @see io.github.chafficui.CrucialLib.Utils.player.effects.VisualEffects
+ */
 public class Border {
     private static Method handle, sendPacket;
     private static Method center, distance, time, movement;
@@ -60,15 +70,33 @@ public class Border {
 
     Main plugin;
 
+    /**
+     * Constructs a new Border instance tied to the given plugin.
+     *
+     * @param plugin the CrucialLib plugin instance used for scheduling and resource access
+     */
     public Border(Main plugin) {
         this.plugin = plugin;
     }
+    /**
+     * Removes the world border vignette effect from the specified player's screen.
+     *
+     * @param p the player whose border effect should be removed
+     */
     public void removeBorder(Player p) {
         if(!Bukkit.getVersion().contains("1.17")){
             sendWorldBorderPacket(p, 0, 200000D, 200000D, 0);
         }
     }
 
+    /**
+     * Sets the world border vignette effect on the specified player's screen.
+     * A higher percentage produces a stronger visual effect.
+     *
+     * @param p          the player to apply the border effect to
+     * @param percentage the intensity of the border effect (0-100), where 0 is no effect
+     *                   and 100 is maximum intensity
+     */
     public void setBorder(Player p, int percentage){
         if(!Bukkit.getVersion().contains("1.17")){
             int dist = -10000 * percentage + 1300000;
@@ -76,6 +104,17 @@ public class Border {
         }
     }
 
+    /**
+     * Sends a raw world border NMS packet to the specified player.
+     * This constructs a {@code PacketPlayOutWorldBorder} with the given parameters
+     * and delivers it via the player's network connection.
+     *
+     * @param p         the player to send the world border packet to
+     * @param dist      the warning distance value for the border
+     * @param oldradius the starting border radius before transition
+     * @param newradius the ending border radius after transition
+     * @param delay     the transition delay in milliseconds (0 for instant)
+     */
     public void sendWorldBorderPacket(Player p, int dist, double oldradius, double newradius, long delay) {
         try {
             Object wb = border_constructor.newInstance();

@@ -85,12 +85,11 @@ class InventoryItemTest {
     }
 
     @Test
-    void inventoryItemHasAttributeModifier() {
+    void inventoryItemHasPDCMarker() {
         InventoryItem item = new InventoryItem(0, new ItemStack(Material.STONE), click -> {});
         ItemStack stack = item.getItem();
         assertNotNull(stack.getItemMeta());
-        // Verify the attribute modifier was added (MAX_HEALTH with CRUCIALLIB_INVENTORYITEM)
-        assertNotNull(stack.getItemMeta().getAttributeModifiers());
+        assertTrue(InventoryItem.isInventoryItem(stack));
     }
 
     // --- Lore ---
@@ -173,5 +172,55 @@ class InventoryItemTest {
         assertEquals(Material.EMERALD, item.getMaterial());
         assertEquals("Gem", item.getName());
         assertTrue(item.isMovable);
+    }
+
+    // --- Round-trip isInventoryItem detection for all constructors ---
+
+    @Test
+    void isInventoryItemDetectsMaterialConstructor() {
+        InventoryItem item = new InventoryItem(0, Material.STONE, "Stone", List.of(), click -> {});
+        assertTrue(InventoryItem.isInventoryItem(item.getItem()));
+    }
+
+    @Test
+    void isInventoryItemDetectsMaterialMovableConstructor() {
+        InventoryItem item = new InventoryItem(0, Material.STONE, "Stone", List.of(), click -> {}, true);
+        assertTrue(InventoryItem.isInventoryItem(item.getItem()));
+    }
+
+    @Test
+    void isInventoryItemDetectsStackConstructor() {
+        InventoryItem item = new InventoryItem(0, new ItemStack(Material.DIAMOND), click -> {});
+        assertTrue(InventoryItem.isInventoryItem(item.getItem()));
+    }
+
+    @Test
+    void isInventoryItemDetectsStackMovableConstructor() {
+        InventoryItem item = new InventoryItem(0, new ItemStack(Material.DIAMOND), click -> {}, true);
+        assertTrue(InventoryItem.isInventoryItem(item.getItem()));
+    }
+
+    @Test
+    void isInventoryItemDetectsStackNoActionConstructor() {
+        InventoryItem item = new InventoryItem(0, new ItemStack(Material.DIAMOND));
+        assertTrue(InventoryItem.isInventoryItem(item.getItem()));
+    }
+
+    @Test
+    void isInventoryItemDetectsStackNoActionMovableConstructor() {
+        InventoryItem item = new InventoryItem(0, new ItemStack(Material.DIAMOND), true);
+        assertTrue(InventoryItem.isInventoryItem(item.getItem()));
+    }
+
+    @Test
+    void isInventoryItemDetectsSlotOnlyConstructor() {
+        InventoryItem item = new InventoryItem(0);
+        assertTrue(InventoryItem.isInventoryItem(item.getItem()));
+    }
+
+    @Test
+    void isInventoryItemDetectsSlotMovableConstructor() {
+        InventoryItem item = new InventoryItem(0, true);
+        assertTrue(InventoryItem.isInventoryItem(item.getItem()));
     }
 }

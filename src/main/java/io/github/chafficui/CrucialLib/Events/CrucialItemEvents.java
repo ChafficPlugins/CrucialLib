@@ -10,6 +10,15 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Bukkit event listener that enforces {@link CrucialItem} interaction and crafting rules.
+ * <p>
+ * Cancels interactions with non-usable items and prevents non-allowed items from
+ * being used in crafting recipes.
+ * </p>
+ *
+ * @see CrucialItem
+ */
 public class CrucialItemEvents implements Listener {
 
     @EventHandler
