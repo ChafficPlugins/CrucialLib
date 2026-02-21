@@ -32,8 +32,10 @@ public class InventoryItem {
 
     private static ItemStack applyMarker(ItemStack stack) {
         ItemMeta meta = stack.getItemMeta();
-        meta.getPersistentDataContainer().set(getMarkerKey(), PersistentDataType.BYTE, (byte) 1);
-        stack.setItemMeta(meta);
+        if (meta != null) {
+            meta.getPersistentDataContainer().set(getMarkerKey(), PersistentDataType.BYTE, (byte) 1);
+            stack.setItemMeta(meta);
+        }
         return stack;
     }
 

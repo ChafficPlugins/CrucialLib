@@ -53,8 +53,10 @@ public class CrucialItem {
      */
     static ItemStack applyId(ItemStack stack, UUID id) {
         ItemMeta meta = stack.getItemMeta();
-        meta.getPersistentDataContainer().set(getIdKey(), PersistentDataType.STRING, id.toString());
-        stack.setItemMeta(meta);
+        if (meta != null) {
+            meta.getPersistentDataContainer().set(getIdKey(), PersistentDataType.STRING, id.toString());
+            stack.setItemMeta(meta);
+        }
         return stack;
     }
 
